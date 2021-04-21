@@ -2,7 +2,7 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import MatchComponent from './src/components/matchComponent';
+import MatchComponent from './src/pages/matchComponent';
 
 const Stack = createStackNavigator();
 

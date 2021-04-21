@@ -8,23 +8,27 @@ import api from '../services/api';
 export default function MatchComponent(){
 	const width = Dimensions.get('window').width;
 	const [data,setData] = useState([]);
+	const [refreshing,setRefreshing] = useState(false);
 
 	useEffect(() => {
-		(async function getAllData(){
-			await api.get('/get_matches')
-			.catch((error)=>{
-				return console.log(error.response.data.error);
-			})
-			.then((response)=>{
-				if(response.status === 200){
-					setData(response.data.allData);
-				}
-			})
-		})();
+		getAllData();
 	}, [width])
+
+	async function getAllData(){
+		await api.get('/matches')
+		.catch((error)=>{
+			return console.log(error.response.data.error);
+		})
+		.then((response)=>{
+			if(response.status === 200){
+				setData(response.data.allData);
+				setRefreshing(false);
+			}
+		});
+	}
 	
-	async function findMatchScore(matchID){
-		await api.get(`/set_match/${matchID}`)
+	async function chooseMatch(matchID){
+		await api.get(`/match/connect/${matchID}`)
 		.catch((error)=>{
 			
 			return console.log(error.response.data.error)
@@ -37,8 +41,12 @@ export default function MatchComponent(){
 		<SafeAreaView style={globalStyles.container}>
 				<FlatList style={{width:width, paddingTop:20,}} key={1}
 					data={data}
-					renderItem={({item,i}) => (
-						<TouchableOpacity key={it=>it.index_id.toString()} style={styles.item} onPress={()=>{findMatchScore(item.id)}}>
+					refreshing= {refreshing}
+					onRefresh={getAllData}
+					renderItem={({item,i}) => {
+						return (
+						
+						<TouchableOpacity key={it=>it.index_id} style={styles.item} onPress={()=>{chooseMatch(item.id)}}>
 							<View style={styles.teamItem}>
 							<View style={styles.rowStyle}>
 									<Text style={{fontSize:20}}>    </Text>
@@ -60,7 +68,7 @@ export default function MatchComponent(){
 								<Text style={{flex:1,fontSize:18}}>{item.live===false?'🌑':'🟢'}</Text>
 							</View>
 						</TouchableOpacity>
-					)}
+					)}}
 				/>
 		<StatusBar backgroundColor="#308efc" barStyle="light-content" translucent={true} />
 		</SafeAreaView>
