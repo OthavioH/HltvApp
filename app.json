@@ -1,0 +1,13 @@
+{
+  "name": "HltvBot",
+  "displayName": "HltvBot",
+  "expo": {
+    "name": "HltvBot",
+    "slug": "HltvBot",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "description": ""
+  }
+}

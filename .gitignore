@@ -1,0 +1,11 @@
+node_modules
+start.bat
+templates
+.env
+*.bat
+'node_modules' 
+'node_modules' 
+'node_modules' 
+'node_modules' 
+'node_modules' 
+*.cmd
